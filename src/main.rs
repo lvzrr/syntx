@@ -46,7 +46,7 @@ fn run_benchmark(filename: &str) {
     let mmap = unsafe { Mmap::map(&f).expect("Failed to mmap file") };
     let source_code = std::str::from_utf8(&mmap).expect("File is not valid UTF-8");
 
-    let source_for_lexer = source_code.to_owned(); // only this one is cloned
+    let source_for_lexer = source_code.to_owned();
     let pid = std::process::id() as i32;
     let start_mem = Process::new(pid).unwrap().statm().unwrap().resident;
     let page_size = procfs::page_size();
@@ -69,7 +69,7 @@ fn run_benchmark(filename: &str) {
     let end_mem = Process::new(pid).unwrap().statm().unwrap().resident;
     let used_pages = end_mem.saturating_sub(start_mem);
     let used_mb = (used_pages * page_size as u64) as f64 / (1024.0 * 1024.0);
-    let line_count = source_code.lines().count(); // <-- you still have the mmap-backed &str here!
+    let line_count = source_code.lines().count();
 
     println!("========== Benchmark Results for {} ==========", filename);
     println!("Lines        : {}", line_count);
