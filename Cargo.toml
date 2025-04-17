@@ -1,0 +1,23 @@
+[package]
+name = "syntx"
+version = "0.1.0"
+edition = "2024"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+panic = "abort"
+strip = "debuginfo"
+debug = false
+incremental = false
+
+[dependencies]
+# bumpalo = { version = "3.17.0", features = ["collections"] }
+crossbeam = "0.8.4"
+memmap2 = "0.9.5"
+procfs = "0.17.0"
+xxhash-rust = { version = "0.8.15", features = ["xxh3", "xxh64"] }
+
+[lib]
+path = "src/lib.rs"
