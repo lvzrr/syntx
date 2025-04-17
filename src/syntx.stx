@@ -1,0 +1,62 @@
+[info]
+name = "syntx";
+
+[tokens]
+Eq = "=";
+Empty = "_";
+Semicolon = ";";
+LBracket = "[";
+RBracket = "]";
+Comma = ",";
+Dot = ".";
+Generic = "_";
+EOF = ;
+
+[delimeters]
+Eq;
+Semicolon;
+LBracket;
+RBracket;
+Comma;
+Dot;
+Arrow;
+
+[operators]
+Eq;
+Dot;
+Arrow;
+
+[comments]
+line = "//";
+block = "/*", "*/";
+
+[keywords]
+keywords = ["tokens", "delimeters", "comments", "info", "grammar", "operators", "line", "block", "name"];
+
+[scapes]
+t = "\t";
+n = "\n";
+b = "\u{0008}";
+r = "\r";
+f = "\u{000C}";
+\' = "\'";
+" = "\"";
+\\ = "\\";
+
+[numbers]
+allowed_chars = ["-", "+", "f", "F", ".", "_", "e", "E"];
+
+[grammar]
+File = [SectionList, EOF];
+SectionList = [[Section, SectionList], _];
+Section = [Header, Body];
+Header = [LBracket, Identifier, RBracket];
+Body = [[Entry, Body], _];
+Entry = [Key, Eq, Value, Semicolon];
+Key = [Identifier];
+Value = [Literal];
+Value = [List];
+List = [LBracket, ListItems, RBracket];
+ListItems = [Value, [Comma, ListItems]];
+Literal = [StringLiteral];
+Literal = [NumberLiteral];
